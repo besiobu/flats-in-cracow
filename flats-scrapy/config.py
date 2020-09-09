@@ -1,0 +1,1 @@
+DATA_PATH = '/home/dev/Desktop/house-pricing/data'
