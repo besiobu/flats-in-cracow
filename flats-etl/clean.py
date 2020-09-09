@@ -3,7 +3,7 @@ from os import listdir
 from os.path import isfile
 
 # Path to folder with scraped data
-path_listings = '/home/dev/Desktop/house-pricing/data/listings'
+path_listings = '../flats-data/listings'
 
 # Output path
 path_cleaned = '../flats-data/'

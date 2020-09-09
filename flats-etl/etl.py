@@ -245,7 +245,7 @@ def extract_city(x):
         if isinstance(x, str):
             x = x.split(',')        
             x = [s.strip().lower() for s in x]
-            if 'kraków' in x:
+            if 'kraków' in x or 'krakow' in x or 'cracow' in x:
                 return 'kraków'
             else:
                 return np.nan
@@ -352,14 +352,16 @@ def parse_parking(x):
     else:
         if isinstance(x, str):
             x = x.lower()
-            if 'garaż' in x or 'garaz' in x:
+            if 'garaż' in x:
                 return 'garage'
             elif 'kryty' in x:
                 return 'covered'
             elif 'ulica' in x:
                 return 'street'
+            elif 'brak' in x:
+                return 'no parking'
             else:
-                return 'unknown'
+                return np.nan
         else:
             return np.nan
 
