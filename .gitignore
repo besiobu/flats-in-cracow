@@ -130,3 +130,6 @@ dmypy.json
 
 # Csv files
 *.csv
+
+# Ignore scraped data
+/flats-data
