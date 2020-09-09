@@ -1,7 +1,7 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
 
-from config import DATA_PATH
+from config import DATA_PATH, SAVE_PAGE
 from gumtree.spiders.link_spider import LinkSpider
 from helpers import make_directory
 
@@ -17,5 +17,5 @@ process = CrawlerProcess({
     'DOWNLOAD_DELAY': 3
 })
 
-process.crawl(LinkSpider, n_pages=50, path=path)
+process.crawl(LinkSpider, n_pages=50, path=path, save_page=SAVE_PAGE)
 process.start() 

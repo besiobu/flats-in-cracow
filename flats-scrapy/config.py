@@ -1,1 +1,2 @@
-DATA_PATH = '/home/dev/Desktop/house-pricing/data'
+DATA_PATH = '../flats-data/'
+SAVE_PAGE = False

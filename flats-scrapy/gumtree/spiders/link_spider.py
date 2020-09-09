@@ -8,10 +8,11 @@ class LinkSpider(scrapy.Spider):
 
     name = 'gumtree-links'
 
-    def __init__(self, n_pages, path, *args, **kwargs):
+    def __init__(self, n_pages, path, save_page, *args, **kwargs):
         super(LinkSpider, self).__init__(*args, **kwargs)
         self.n_pages = n_pages
         self.path = path
+        self.save_page = save_page
 
     def start_requests(self):
 
@@ -30,9 +31,10 @@ class LinkSpider(scrapy.Spider):
         links_path = f'{self.path}/{url}.txt'
 
         # Save page
-        self.log(f'Saving page to {page_path}.')
-        with open(page_path, 'wb') as f:
-            f.write(response.body)
+        if self.save_page:
+            self.log(f'Saving page to {page_path}.')
+            with open(page_path, 'wb') as f:
+                f.write(response.body)
         
         # Extract links to listings
         listings = response.xpath("//div[@class='title']/a/@href").extract()        

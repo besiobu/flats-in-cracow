@@ -8,10 +8,11 @@ class ListingSpider(scrapy.Spider):
     
     name = 'gumtree-listings'
 
-    def __init__(self, urls, path, *args, **kwargs):
+    def __init__(self, urls, path, save_page, *args, **kwargs):
         super(ListingSpider, self).__init__(*args, **kwargs)
         self.urls = urls
         self.path = path
+        self.save_page = save_page
 
     def start_requests(self):
 
@@ -22,6 +23,7 @@ class ListingSpider(scrapy.Spider):
 
     def parse(self, response):
         """
+
         Extract information about property.
 
         Notes
@@ -46,9 +48,9 @@ class ListingSpider(scrapy.Spider):
 
         url = response.url.split('/')[-2]
         filename = f'{self.path}/pages/{url}.html'
-        
-        with open(filename, 'wb') as f:
-            f.write(response.body)
+        if self.save_page:
+            with open(filename, 'wb') as f:
+                f.write(response.body)
                 
         data = {'Cena': None,
                 'Lokalizacja': None,
