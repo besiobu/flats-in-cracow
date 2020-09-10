@@ -579,6 +579,12 @@ def extract_building_land(x):
             x = x.lower()
             if 'dzialka' in x or 'działka' in x:
                 return True
+            elif 'grunt' in x:
+                return True
+            elif 'posesja' in x:
+                return True
+            elif 'teren' in x:
+                return True
             else:
                 return False
         else:
