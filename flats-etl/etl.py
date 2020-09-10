@@ -443,17 +443,17 @@ def extract_terrace(x):
         else:
             return False    
 
-def extract_lift(x):
+def extract_floor(x):
     """
     Check if property has lift.
 
     Examples
     --------    
-    >>> extract_lift('Mieszkanie z windą')
+    >>> extract_floor('Mieszkanie na pierwszym piętrze')
     True
-    >>> extract_lift('Mieszkanie z winda')
+    >>> extract_floor('Pierwsze piętro')
     True
-    >>> extract_lift('Brzydkie mieszkanie')
+    >>> extract_floor('Brzydkie mieszkanie')
     False
     """
 
@@ -462,8 +462,14 @@ def extract_lift(x):
     else:
         if isinstance(x, str):
             x = x.lower()            
-            if 'winda' in x or 'windą' in x:
+            if 'piętro' in x or 'pietro' in x:
                 return True
+            elif 'piętrze' in x or 'pietrze' in x:
+                return True
+            elif 'parter' in x:
+                return False
+            elif 'suterena' in x:
+                return False
             else:
                 return False
         else:
@@ -637,7 +643,7 @@ def get_data(path):
             print(f'Data read.')
             return data
 
-def transform(in_path, out_path, prefix='cleaned'):
+def transform(in_path, out_path, prefix='raw'):
 
     if isinstance(in_path, list):
         dfs = list()
@@ -683,7 +689,7 @@ def transform(in_path, out_path, prefix='cleaned'):
     df['Garden'] = df['Full Text'].apply(extract_garden)
     df['Balcony'] = df['Full Text'].apply(extract_balcony)
     df['Terrace'] = df['Full Text'].apply(extract_terrace)
-    df['Lift'] = df['Full Text'].apply(extract_lift)
+    df['Floor'] = df['Full Text'].apply(extract_floor)
     df['New'] = df['Full Text'].apply(extract_new)
     df['Estate'] =  df['Full Text'].apply(extract_estate)
     df['Townhouse'] = df['Full Text'].apply(extract_town_house)
@@ -699,7 +705,7 @@ def transform(in_path, out_path, prefix='cleaned'):
     # Reorrder
     cols = ['Date',  'City', 'District', 'Amount', 'Currency', 
             'Property', 'Seller', 'Area', 'Rooms', 'Bathrooms', 
-            'Parking', 'Garden', 'Balcony', 'Terrace', 'Lift', 
+            'Parking', 'Garden', 'Balcony', 'Terrace', 'Floor', 
             'New', 'Estate', 'Townhouse', 'Apartment', 'Land',
             'Studio', 'Title', 'Description', 'Link']
 
