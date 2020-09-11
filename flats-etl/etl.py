@@ -2,7 +2,11 @@ import pandas as pd
 import numpy as np
 import re 
 
+from unidecode import unidecode
+
 # Map district in Kraków to integers.
+# For details see:
+# https://en.wikipedia.org/wiki/Districts_of_Krak%C3%B3w
 districts = {'stare miasto': 1,
              'grzegórzki': 2,
              'prądnik czerwony': 3,
@@ -24,6 +28,10 @@ districts = {'stare miasto': 1,
              'wzgórza krzesławickie': 17,
              'nowa huta': 18}
 
+# Remove polish characters from key names
+for key in list(districts.keys()):
+    districts[unidecode(key)] = districts.pop(key)
+
 # Translate data from polish to english.
 translation = {'Cena': 'Price',
                'Lokalizacja': 'Location',
@@ -37,6 +45,22 @@ translation = {'Cena': 'Price',
                'Tytuł': 'Title',
                'Opis': 'Description',
                'Link': 'Link'}             
+
+def remove_polish_characters(x):
+    """
+    Remove polsih chars
+
+    Examples
+    --------    
+    >>> remove_polish_characters('ąćęłńóśźż')
+    'acelnoszz'
+
+    """
+    if pd.isnull(x):
+        return x
+    else:
+        x = unidecode(x)
+        return x
 
 def parse_price(x):
     """
@@ -344,7 +368,7 @@ def parse_parking(x):
     >>> parse_parking('Ulica')
     'street'
     >>> parse_parking('Brak')
-    'unknown'
+    'no parking'
     """
 
     if pd.isnull(x):
@@ -371,8 +395,6 @@ def extract_garden(x):
 
     Examples
     --------
-    >>> extract_garden('piękny ogród')
-    True
     >>> extract_garden('piękny ogrod')    
     True
     >>> extract_garden('piękny dom')    
@@ -386,7 +408,7 @@ def extract_garden(x):
     else:
         if isinstance(x, str):
             x = x.lower()            
-            if 'ogród' in x or 'ogrod' in x:
+            if 'ogrod' in x:
                 return True
             else:
                 return False
@@ -419,7 +441,7 @@ def extract_balcony(x):
 
 def extract_terrace(x):
     """
-    Check if property has balcony.
+    Check if property has terrace.
 
     Examples
     --------
@@ -445,13 +467,13 @@ def extract_terrace(x):
 
 def extract_floor(x):
     """
-    Check if property has lift.
+    Check if property is on the ground floor.
 
     Examples
     --------    
-    >>> extract_floor('Mieszkanie na pierwszym piętrze')
+    >>> extract_floor('Mieszkanie na pierwszym pietrze')
     True
-    >>> extract_floor('Pierwsze piętro')
+    >>> extract_floor('Pierwsze pietro')
     True
     >>> extract_floor('Brzydkie mieszkanie')
     False
@@ -462,9 +484,9 @@ def extract_floor(x):
     else:
         if isinstance(x, str):
             x = x.lower()            
-            if 'piętro' in x or 'pietro' in x:
+            if 'pietro' in x:
                 return True
-            elif 'piętrze' in x or 'pietrze' in x:
+            elif 'pietrze' in x:
                 return True
             elif 'parter' in x:
                 return False
@@ -477,7 +499,7 @@ def extract_floor(x):
             
 def extract_new(x):
     """
-    Check if property has lift.
+    Check if property is new.
 
     Examples
     --------    
@@ -501,7 +523,14 @@ def extract_new(x):
 
 def extract_estate(x):
     """
-    Check if property has lift.
+    Check if property is in an estate.
+
+    Examples
+    --------
+    >>> extract_estate('Piękne mieszkanie na osiedlu xxx')
+    True
+    >>> extract_estate(123)
+    False
     """
 
     if pd.isnull(x):
@@ -509,7 +538,9 @@ def extract_estate(x):
     else:
         if isinstance(x, str):
             x = x.lower()
-            if 'osiedle' in x or 'osiedle' in x:
+            if 'osiedle' in x:
+                return True
+            elif 'osiedlu' in x:
                 return True
             else:
                 return False
@@ -519,6 +550,13 @@ def extract_estate(x):
 def extract_town_house(x):
     """
     Check if property is in a town house.
+
+    Examples
+    --------
+    >>> extract_town_house('Małe mieszkanie w kamienicy')
+    True
+    >>> extract_town_house('Duże mieszkanie w bloku')
+    False
     """
 
     if pd.isnull(x):
@@ -537,6 +575,13 @@ def extract_town_house(x):
 def extract_apartment(x):
     """
     Check if property is an apartment.
+
+    Examples
+    --------
+    >>> extract_apartment('Apartament na sprzedaż')
+    True
+    >>> extract_apartment('Kawalerka na sprzedaż')    
+    False
     """
 
     if pd.isnull(x):
@@ -554,6 +599,13 @@ def extract_apartment(x):
 def extract_studio(x):
     """
     Check if property is studio flat.
+
+    Examples
+    --------
+    >>> extract_studio('Kawalerka na sprzedaż')    
+    True
+    >>> extract_studio('Apartament na sprzedaż')
+    False
     """
 
     if pd.isnull(x):
@@ -570,14 +622,20 @@ def extract_studio(x):
 
 def extract_building_land(x):
     """
-    Check is property is building land.
+    Check is property has any building land.
+
+    Examples
+    --------
+    >>> extract_building_land('Mieszkanie na parterze z dzialka')
+    True
+
     """    
     if pd.isnull(x):
         return x
     else:
         if isinstance(x, str):
             x = x.lower()
-            if 'dzialka' in x or 'działka' in x:
+            if 'dzialka' in x:
                 return True
             elif 'grunt' in x:
                 return True
@@ -649,6 +707,8 @@ def get_data(path):
             print(f'Data read.')
             return data
 
+
+
 def transform(in_path, out_path, prefix='raw'):
 
     if isinstance(in_path, list):
@@ -677,6 +737,7 @@ def transform(in_path, out_path, prefix='raw'):
 
     text_cols = ['Title', 'Location', 'Description']
     df['Full Text'] = df[text_cols].apply(lambda x: ' '.join(map(str, x)), axis=1)
+    df['Full Text'] = df['Full Text'].apply(remove_polish_characters)
 
     # Parse
     df['Amount'] = df['Price'].apply(parse_price)
@@ -689,9 +750,9 @@ def transform(in_path, out_path, prefix='raw'):
 
     # Extract
     df['City'] = df['Location'].apply(extract_city)    
-    df['District'] = df['Full Text'].apply(extract_district)    
     df['Currency'] = df['Price'].apply(extract_currency)    
 
+    df['District'] = df['Full Text'].apply(extract_district)    
     df['Garden'] = df['Full Text'].apply(extract_garden)
     df['Balcony'] = df['Full Text'].apply(extract_balcony)
     df['Terrace'] = df['Full Text'].apply(extract_terrace)
