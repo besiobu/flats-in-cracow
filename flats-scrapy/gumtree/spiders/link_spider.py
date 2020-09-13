@@ -1,4 +1,5 @@
 import scrapy
+from random import shuffle
 
 class LinkSpider(scrapy.Spider):
     """
@@ -16,8 +17,11 @@ class LinkSpider(scrapy.Spider):
 
     def start_requests(self):
 
-        urls = []                    
-        for i in range(1, self.n_pages + 1):
+        urls = []
+        page_nums = list(range(1, self.n_pages + 1))
+        shuffle(page_nums)          
+
+        for i in page_nums:
             url = f'https://www.gumtree.pl/s-mieszkania-i-domy-sprzedam-i-kupie/krakow/page-{i}/v1c9073l3200208p{i}'
             urls.append(url)
 

@@ -1,5 +1,6 @@
 import re
 import scrapy
+from random import shuffle
 
 class ListingSpider(scrapy.Spider):
     """
@@ -17,6 +18,8 @@ class ListingSpider(scrapy.Spider):
     def start_requests(self):
 
         self.log(f'Fetching {len(self.urls)} listings.')
+
+        shuffle(self.urls)
 
         for url in self.urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -103,8 +106,10 @@ class ListingSpider(scrapy.Spider):
         if isinstance(desc, list):
             if desc:
                 desc = desc[0]       
-                desc = re.sub(r'[^\w\s]', '', desc)                
-                desc = desc.replace('\n', '')
+                desc = re.sub(r'[^\w\s]', ' ', desc)                
+                desc = desc.replace('\n', ' ')
+                desc = desc.replace('\r', ' ')
+                desc = desc.replace('\xa', ' ')
                 desc = desc.lower()
 
         data['Opis'] = desc
