@@ -109,7 +109,7 @@ class ListingSpider(scrapy.Spider):
                 desc = re.sub(r'[^\w\s]', ' ', desc)                
                 desc = desc.replace('\n', ' ')
                 desc = desc.replace('\r', ' ')
-                desc = desc.replace('\xa', ' ')
+                desc = desc.replace('\xa0', ' ')
                 desc = desc.lower()
 
         data['Opis'] = desc
