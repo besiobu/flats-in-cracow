@@ -1,6 +1,7 @@
 import re
 import scrapy
 from random import shuffle
+from helpers import clean_text
 
 class ListingSpider(scrapy.Spider):
     """
@@ -75,8 +76,7 @@ class ListingSpider(scrapy.Spider):
         price = response.xpath("//span[@class='amount']/text()").extract()
         if isinstance(price, list):
             if price:
-                price = price[0]
-                price = price.strip()
+                price = clean_text(price[0])
         else:
             price = None
         data['Cena'] = price
@@ -85,9 +85,7 @@ class ListingSpider(scrapy.Spider):
         title = response.xpath("//span[@class='myAdTitle']/text()").extract()
         if isinstance(title, list):
             if title:
-                title = title[0]
-                title = re.sub(r'[^\w\s]', '', title)
-                title = title.lower()
+                title = clean_text(title[0])
         else:
             title = None            
         data['Tytuł'] = title
@@ -96,8 +94,7 @@ class ListingSpider(scrapy.Spider):
         address = response.xpath("//span[@class='address']/text()").extract()
         if isinstance(address, list):
             if address:
-                address = address[0]
-                address = address.strip()
+                address = clean_text(address[0])
         else:
             address = None
         data['Lokalizacja'] = address
@@ -105,12 +102,7 @@ class ListingSpider(scrapy.Spider):
         desc = response.xpath("//span[@class='pre']/text()").extract()
         if isinstance(desc, list):
             if desc:
-                desc = desc[0]       
-                desc = re.sub(r'[^\w\s]', ' ', desc)                
-                desc = desc.replace('\n', ' ')
-                desc = desc.replace('\r', ' ')
-                desc = desc.replace('\xa0', ' ')
-                desc = desc.lower()
+                desc = clean_text(desc[0])
 
         data['Opis'] = desc
 
@@ -124,8 +116,13 @@ class ListingSpider(scrapy.Spider):
                     if name and value:
                         name = name[0]
                         value = value[0]
-                        name = name.extract().strip()
-                        value = value.extract().strip()                        
+
+                        name = name.extract()
+                        value = value.extract()
+
+                        name = clean_text(name)
+                        value = clean_text(value)
+
                         if name in data:
                             data[name] = value
                         else:

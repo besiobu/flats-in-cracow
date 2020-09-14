@@ -133,3 +133,6 @@ dmypy.json
 
 # Ignore scraped data
 /flats-data
+
+# Ignore visual studio code stuff
+/.vscode

@@ -95,3 +95,14 @@ def get_urls(path):
     print(f'{len(all_urls)} unique urls to scrape.')
     
     return all_urls
+
+def clean_text(text):
+    """
+    Remove special characters from text.
+    """
+
+    text = text.split()
+    text = [x.strip() for x in text]
+    text = ' '.join(text)
+
+    return text
