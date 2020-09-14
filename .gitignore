@@ -136,3 +136,6 @@ dmypy.json
 
 # Ignore visual studio code stuff
 /.vscode
+
+# Ignore checkpoints
+.ipynb_checkpoints
