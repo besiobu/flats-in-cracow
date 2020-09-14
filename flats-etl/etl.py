@@ -80,6 +80,8 @@ def parse_price(x):
     -------
     >>> parse_price('349\xa0000 zł')
     349000
+    >>> parse_price('349 000 zł')
+    349000
     >>> parse_price('349\xa0000')
     349000
     >>> parse_price('349000')    
@@ -101,6 +103,7 @@ def parse_price(x):
         if isinstance(x, str):
             x = x.replace('\xa0', '')
             x = x.replace('zł', '')
+            x = x.replace(' ', '')
             x = x.strip()
             try:
                 x = int(x)                
