@@ -14,7 +14,7 @@ process = CrawlerProcess({
     'SPIDER_MODULES': ['gumtree.spiders'],
     'NEWSPIDER_MODULE': 'gumtree.spiders',
     'ROBOTSTXT_OBEY': True,
-    'DOWNLOAD_DELAY': 3
+    'DOWNLOAD_DELAY': 5
 })
 
 process.crawl(LinkSpider, n_pages=50, path=path, save_page=SAVE_PAGE)

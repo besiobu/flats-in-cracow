@@ -14,7 +14,7 @@ process = CrawlerProcess({
     'SPIDER_MODULES': ['gumtree.spiders'],
     'NEWSPIDER_MODULE': 'gumtree.spiders',
     'ROBOTSTXT_OBEY': True,
-    'DOWNLOAD_DELAY': 3,
+    'DOWNLOAD_DELAY': 5,
     'FEED_URI': f'{path}/data.csv',
     'FEED_FORMAT': 'csv',
 })
