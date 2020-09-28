@@ -1,4 +1,4 @@
-# Flats in Cracow
+# flats in cracow
 
 ## Project goal
 The goal of this project is to build a model to predict flat prices in Cracow, PL from scratch.
@@ -14,6 +14,7 @@ The goal of this project is to build a model to predict flat prices in Cracow, P
 * Pandas
 * Jupyter
 * Scrapy
+* Scikit-Learn
 
 ## Project description
 The flow of the project is as follows: first data is scraped from the web and saved to memory untouched. Next the data is prepared for further analysis. This step would include things such as extracting information about the property. In the next step the data is read into a Jupyter Notebook where it is cleaned, transformed and analyzed. Lastly we build models and evaluate their performance against a baseline model.
