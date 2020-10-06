@@ -1,4 +1,5 @@
-# polar
+## Project goal
+The goal of this project is to build a model to predict flat prices in `Cracow, PL` from scratch.
 
 ## Summary
 * More than`60 000` non unique listings for properties were scraped from the web.
