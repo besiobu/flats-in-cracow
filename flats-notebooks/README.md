@@ -3,11 +3,11 @@
 ## Summary
 * More than`60 000` non unique listings for properties were scraped from the web.
 
-* Scraped information contains `price`  and `type` of property, it's `area`, it's `number of rooms` and type of `seller` etc. followed by a `description` and `title`.
+* Scraped information contains `price`  and `type` of property, it's `area`, it's `number of rooms` and type of `seller` etc. followed by a `description` and `title`. For example:
 
 ![image](https://github.com/besiobu/flats-in-cracow/blob/master/flats-notebooks/img/feature_seller.png)
 
-* The data is passed through a `etl` script that validates values and `extracts` certain `features` from the data.
+* The data is passed through a `etl` script that validates values and `extracts` certain `features` from the data. For example:
 
 ![image](https://github.com/besiobu/flats-in-cracow/blob/master/flats-notebooks/img/feature_parking.png)
 
@@ -32,6 +32,8 @@
 | Area to Rooms | The ratio of `Area` to `Rooms` |
 
 * 4 models were trained on a containing `80%` of the data.
+
+* Different pipelines were constructed for model training. In these piples `one hot encoding` and `min max scaling` were applied.
 
 * `5-fold cross validation` was applied when tuning parameters.
 
