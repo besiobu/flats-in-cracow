@@ -745,7 +745,7 @@ def transform(in_path, out_path, prefix='raw'):
     df['Terrace'] = df['Full Text'].apply(extract_terrace)
     df['Basement'] = df['Full Text'].apply(extract_basement)
     df['New'] = df['Full Text'].apply(extract_new)
-    df['Estate'] =  df['Full Text'].apply(extract_block)
+    df['Block'] =  df['Full Text'].apply(extract_block)
     df['Townhouse'] = df['Full Text'].apply(extract_town_house)
     df['Apartment'] = df['Full Text'].apply(extract_apartment)
     df['Bus stops'] = df['Full Text'].apply(extract_bus_stops)
@@ -760,7 +760,7 @@ def transform(in_path, out_path, prefix='raw'):
     cols = ['Date',  'City', 'District', 'Amount', 'Currency', 
             'Property', 'Seller', 'Area', 'Rooms', 'Bathrooms', 
             'Parking', 'Garden', 'Balcony', 'Terrace', 'Basement', 
-            'New', 'Estate', 'Townhouse', 'Apartment', 'Bus stops',
+            'New', 'Block', 'Townhouse', 'Apartment', 'Bus stops',
             'Studio', 'Title', 'Description', 'Link']
 
     df = df[cols]
