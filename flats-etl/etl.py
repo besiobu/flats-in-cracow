@@ -468,17 +468,15 @@ def extract_terrace(x):
         else:
             return False    
 
-def extract_floor(x):
+def extract_basement(x):
     """
-    Check if property is on the ground floor.
+    Check if property has a basement.
 
     Examples
     --------    
-    >>> extract_floor('Mieszkanie na pierwszym pietrze')
+    >>> extract_basement('Mieszkanie z przynależną piwnica')
     True
-    >>> extract_floor('Pierwsze pietro')
-    True
-    >>> extract_floor('Brzydkie mieszkanie')
+    >>> extract_basement('Pierwsze pietro')
     False
     """
 
@@ -487,14 +485,8 @@ def extract_floor(x):
     else:
         if isinstance(x, str):
             x = x.lower()            
-            if 'pietro' in x:
+            if 'piwnica' in x:
                 return True
-            elif 'pietrze' in x:
-                return True
-            elif 'parter' in x:
-                return False
-            elif 'suterena' in x:
-                return False
             else:
                 return False
         else:
@@ -524,15 +516,15 @@ def extract_new(x):
         else:
             return False                
 
-def extract_estate(x):
+def extract_block(x):
     """
-    Check if property is in an estate.
+    Check if property is in an block.
 
     Examples
     --------
-    >>> extract_estate('Piękne mieszkanie na osiedlu xxx')
+    >>> extract_block('Piękne mieszkanie w bloku xxx')
     True
-    >>> extract_estate(123)
+    >>> extract_block(123)
     False
     """
 
@@ -541,9 +533,7 @@ def extract_estate(x):
     else:
         if isinstance(x, str):
             x = x.lower()
-            if 'osiedle' in x:
-                return True
-            elif 'osiedlu' in x:
+            if 'bloku' in x:
                 return True
             else:
                 return False
@@ -623,13 +613,13 @@ def extract_studio(x):
         else:
             return False                
 
-def extract_building_land(x):
+def extract_bus_stops(x):
     """
-    Check is property has any building land.
+    Check is property has bus stops nearby.
 
     Examples
     --------
-    >>> extract_building_land('Mieszkanie na parterze z dzialka')
+    >>> extract_bus_stops('Blisko przystanki komunkacji miejskiej')
     True
 
     """    
@@ -638,13 +628,7 @@ def extract_building_land(x):
     else:
         if isinstance(x, str):
             x = x.lower()
-            if 'dzialka' in x:
-                return True
-            elif 'grunt' in x:
-                return True
-            elif 'posesja' in x:
-                return True
-            elif 'teren' in x:
+            if 'miejskiej' in x:
                 return True
             else:
                 return False
@@ -759,12 +743,12 @@ def transform(in_path, out_path, prefix='raw'):
     df['Garden'] = df['Full Text'].apply(extract_garden)
     df['Balcony'] = df['Full Text'].apply(extract_balcony)
     df['Terrace'] = df['Full Text'].apply(extract_terrace)
-    df['Floor'] = df['Full Text'].apply(extract_floor)
+    df['Basement'] = df['Full Text'].apply(extract_basement)
     df['New'] = df['Full Text'].apply(extract_new)
-    df['Estate'] =  df['Full Text'].apply(extract_estate)
+    df['Estate'] =  df['Full Text'].apply(extract_block)
     df['Townhouse'] = df['Full Text'].apply(extract_town_house)
     df['Apartment'] = df['Full Text'].apply(extract_apartment)
-    df['Land'] = df['Full Text'].apply(extract_building_land)
+    df['Bus stops'] = df['Full Text'].apply(extract_bus_stops)
     df['Studio'] = df['Full Text'].apply(extract_studio)    
 
     # Remove useles columns
@@ -775,8 +759,8 @@ def transform(in_path, out_path, prefix='raw'):
     # Reorrder
     cols = ['Date',  'City', 'District', 'Amount', 'Currency', 
             'Property', 'Seller', 'Area', 'Rooms', 'Bathrooms', 
-            'Parking', 'Garden', 'Balcony', 'Terrace', 'Floor', 
-            'New', 'Estate', 'Townhouse', 'Apartment', 'Land',
+            'Parking', 'Garden', 'Balcony', 'Terrace', 'Basement', 
+            'New', 'Estate', 'Townhouse', 'Apartment', 'Bus stops',
             'Studio', 'Title', 'Description', 'Link']
 
     df = df[cols]
