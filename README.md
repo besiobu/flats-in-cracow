@@ -22,12 +22,42 @@ The flow of the project is as follows: first data is scraped from the web and sa
 ## Analysis & Notebooks
 All notebooks are saved in ```flats-notebooks``` in ```.ipynb``` and ```.pdf``` formats.
 
+
 ## Getting started
-1. Clone this repo.
-2. Install the requirements.
-3. Run ```setup.py```. This creates the directories needed for scraping: ```flats-data/urls``` & ```flats-data/listings```.
-4. Go to ```flats-scrapy``` and run: ```scrape_links.py```. The scraped links will be saved in ```flats-data/urls```. 
-5. Go to ```flats-scrapy``` and run: ```scrape_listings.py```. The data scraped of the page will be saved in ```flats-data/listings```.
-6. To process the scraped data go to ```flats-etl``` and run ```etl.py```. This will generate a file in ```flats-data/``` called ```raw_data.csv```.
-7. Next you should run the notebooks ```flats-notebooks``` according the their numbering.
-8. The last notebook trains models that are saved to ```flats-models```.
+1. Clone this repo:
+    ```
+    git clone https://github.com/besiobu/flats-in-cracow.git
+    ```
+2. Install the requirements:
+    ```
+    pip3 install -r requirements.txt    
+    ```
+3. Run:
+    ```
+    python3 setup.py
+    ```
+    This creates a directory for scraped links:
+    ```
+    flats-data/urls
+    ``` 
+    and a directory for the actual property listings:
+    ```
+    flats-data/listings
+    ```
+4. Go to ```flats-scrapy``` and run: 
+    ```
+    python3 scrape_links.py
+    ```
+    The scraped links will be saved in ```flats-data/urls```. 
+5. Go to ```flats-scrapy``` and run: 
+    ```
+    python3 scrape_listings.py
+    ```
+    The data scraped of the page will be saved in ```flats-data/listings```.
+6. To process the scraped data go to ```flats-etl``` and run: 
+    ```
+    python3 etl.py
+    ```
+    This will generate a file in ```flats-data``` called ```raw_data.csv```.
+7. Next you should run the notebooks ```flats-notebooks``` according to the their numbering.
+8. The last notebook trains all the models that are saved to ```flats-models```.
